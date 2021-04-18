@@ -1,42 +1,46 @@
 import Biodiversity
+"""Importing the given Biodiversity file which imports math so i dont need to
+this file defines the two functions Calculate distance and Line to List."""
 
-"""Here I am importing the given Biodiversity file which imports math so i dont need to
-in this file and it defines the two functions Calculate distance and Line to List."""
+Newlist = []
+#must be defined outside of the function as is a global variable
 
+#-----------Added function to make the code better------------#
+def OpenAndSortFile (FileName):
+    file = open(FileName, "r")
+    lines = []
+    for line in file:
+        lines.append(line)   
+    file.close()
+    #Opened file is reads in line by line using a loop adding each line as an item of a list (lines).
+    
+    for x in lines:
+        Newlist.append (Biodiversity.LineToList(x))
+    """Uses the line to list function given to pass each of these lines in the list
+    just created and split them into three elements this creates a 2d array.
+    All the species names being Newlist[x][0] all the latitudes being Newlist[x][1] etc."""
+
+    return Newlist
 
 #----------PART 1----------#
 
 def LocationCount (FileName, Distanceinkm, Lat, Long):
     
     Num1 = 0
+    #variable defined to be used as a counter
 
-    file = open(FileName, "r")
-    lines = []
-    for line in file:
-        lines.append(line)   
-    file.close()
-   
-    """This code opens the file passed into the function (FileName) it then reads it in line by
-    line using a loop adding each line as an item of a list (lines)."""
-    
-    Newlist = []
-    for x in lines:
-        Newlist.append (Biodiversity.LineToList(x))
-    """This code uses the line to list function given to pass each of these lines in the list
-    just created and split them into three elements this creates a 2d array.
-    All the species names being Newlist[x][0] all the latitudes being Newlist[x][1] etc."""
+    OpenAndSortFile(FileName)
     
     for loop in range(0, len(Newlist)):
         nD= Biodiversity.CalculateDistance(Lat, Long, Newlist[loop][1], Newlist[loop][2])
         if nD <= Distanceinkm :
             Num1 += 1
 
-    """This loop calls the Calculate distance function to calculate the distance from a given
-    location and all the locations in the file.I used a loop so it runs through all the
-    locations of all the animals in the array returning their distances from the location
-    as nD. The nD is compared to the Distanceinkm and if its less than or equal to it then the
-    Number variable increases which is a running count of the number of animals in the
-    range. This is the number returned below. """
+    """Calculates the distance from a given location to all the locations in the file. 
+    I used a loop so it runs through all the locations of all the animals in the array 
+    returning their distances from the location as nD. The nD is compared to the Distanceinkm
+    and if its less than or equal to it then the Number variable increases which is a running 
+    count of the number of animals in the range. """
 
     return Num1
 
@@ -44,19 +48,7 @@ def LocationCount (FileName, Distanceinkm, Lat, Long):
 
 def PrintLocation(FileName, Distanceinkm, Lat, Long):
     
-    file = open(FileName, "r")
-    lines = []
-    for line in file:
-        lines.append(line)   
-    file.close()
-    
-    Newlist = []
-    for x in lines:
-        Newlist.append (Biodiversity.LineToList(x))
-      
-    """These first two sections of code are the same as in the LocationCount function
-    it first takes a file name and splits each line into a list called lines.
-    Then each element of lines is slpit into alot list creating a 2d array called Newlist."""
+    OpenAndSortFile(FileName)
         
     f = open("output.kml", "w")
     f.write('<Document> \n')
@@ -79,12 +71,11 @@ def PrintLocation(FileName, Distanceinkm, Lat, Long):
     f.write('</Document>')
     f.close()
       
-    """This section of code opens a file called output.kml the w means in write mode. If a file
-    called output.kml is present it clears and rewrites that if not it creates one. Then the
-    kml file is writen using the correct format shown in the handbook. A loop is used to search
-    through the list using the lat and long values to find the sightinings within the desired
-    range. If in the correct range the species name and coordiates are added to the kml file in
-    the correct format, then this file is closed."""
+    """File opened called output.kml in write mode. If a file called output.kml is present it
+    clears and rewrites that if not it creates one. Then the kml file is writen using the correct 
+    format shown in the handbook. A loop is used to search through the list using the lat and long 
+    values to find the sightinings within the desired range. If in the correct range the species name
+    and coordiates are added to the kml file in the correct format."""
     
 #----------PART 3----------#        
     
@@ -92,19 +83,7 @@ def BiodiversityCount (FileName, Distanceinkm, Lat, Long):
     
     Num2 = 0
     
-    file = open(FileName, "r")
-    lines = []
-    for line in file:
-        lines.append(line)   
-    file.close()
-    
-    Newlist = []
-    for x in lines:
-        Newlist.append (Biodiversity.LineToList(x))
-      
-    """These first two sections of code are again the same as in the LocationCount function
-    it first takes a file name and splits each line into a list called lines.
-    Then each element of lines is slpit into alot list creating a 2d array called Newlist."""
+    OpenAndSortFile(FileName)
     
     ListofSpecies = []
     for loop in range(0, len(Newlist)):
